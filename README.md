@@ -9,4 +9,3 @@ Algorthme 2 :
 A*
 
 Slidedoc des 2 algorithmes
-TINLEREADME
