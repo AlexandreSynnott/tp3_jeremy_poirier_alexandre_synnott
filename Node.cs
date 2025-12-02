@@ -1,35 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace tp3AlexJeremy
 {
-    public class Node<T> where T : IComparable<T>
+    public class Noeud
     {
-        public T Value { get; }
-        public Node<T>? Left { get; private set; }
-        public Node<T>? Right { get; private set; }
+        public char? Caractere;   
+        public int Frequence;     
+        public Noeud Gauche;
+        public Noeud Droite;
 
-        public Node(T value) => Value = value;
-
-        public void Add(T newValue)
+        public Noeud(char? c, int f)
         {
-            if (newValue.CompareTo(Value) < 0)
-            {
-                if (Left == null)
-                    Left = new Node<T>(newValue);
-                else
-                    Left.Add(newValue);
-            }
-            else
-            {
-                if (Right == null)
-                    Right = new Node<T>(newValue);
-                else
-                    Right.Add(newValue);
-            }
+            Caractere = c;
+            Frequence = f;
         }
     }
 }

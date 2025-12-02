@@ -1,123 +1,119 @@
-﻿namespace tp3AlexJeremy
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace tp3AlexJeremy
 {
     internal class Program
     {
+        // Calcul des fréquences
         public static int[] CalculerFrequences(string texte)
         {
-            int[] frequences = new int[36]; //ca represente les 26 lettre + 10 chiffres. Donc en gros c simple: 26+10 = 36
+            int[] frequences = new int[36]; // 26 lettres + 10 chiffres
 
             foreach (char c in texte)
             {
-                if (c >= 'A' && c <= 'Z')
-                {
-                    frequences[c - 'A']++;
-                }
-                else if (c >= '0' && c <= '9')
-                {
-                    frequences[26 + (c - '0')]++;
-                }
+                if (c >= 'A' && c <= 'Z') frequences[c - 'A']++;
+                else if (c >= '0' && c <= '9') frequences[26 + (c - '0')]++;
             }
 
             return frequences;
         }
 
-        public static void GenererCodes(Node<(char charactere, int freq)> node, string code, Dictionary<char, string> codes)
+        // Construction de l'arbre de Huffman
+        public static Noeud ConstruireArbre(Dictionary<char, int> freq)
         {
-            if (node.Left == null && node.Right == null)
+            var pq = new PriorityQueue<Noeud, int>();
+
+            foreach (var kvp in freq)
+                pq.Enqueue(new Noeud(kvp.Key, kvp.Value), kvp.Value);
+
+            while (pq.Count > 1)
             {
-                codes[node.Value.charactere] = code;
-                return;
+                var g = pq.Dequeue();
+                var d = pq.Dequeue();
+                var parent = new Noeud(null, g.Frequence + d.Frequence)
+                {
+                    Gauche = g,
+                    Droite = d
+                };
+                pq.Enqueue(parent, parent.Frequence);
             }
-            if (node.Left != null)
-            {
-                GenererCodes(node.Left, code + "0", codes);
-            }
-            if (node.Right != null)
-            {
-                GenererCodes(node.Right, code + "1", codes);
-            }
+
+            return pq.Dequeue();
         }
 
-        static void Main(string[] args)
+        // Génération des codes binaires
+        public static void GenererCodes(Noeud node, string code, Dictionary<char, string> codes)
+        {
+            if (node == null) return;
+
+            if (node.Caractere != null)
+            {
+                if (code == "") code = "0"; // éviter code vide si un seul caractère
+                codes[node.Caractere.Value] = code;
+                return;
+            }
+
+            GenererCodes(node.Gauche, code + "0", codes);
+            GenererCodes(node.Droite, code + "1", codes);
+        }
+
+        // Décompression
+        public static string Decompresser(string bits, Noeud root)
+        {
+            StringBuilder resultat = new StringBuilder();
+            Noeud courant = root;
+
+            foreach (char bit in bits)
+            {
+                courant = (bit == '0') ? courant.Gauche : courant.Droite;
+
+                if (courant.Caractere != null)
+                {
+                    resultat.Append(courant.Caractere.Value);
+                    courant = root;
+                }
+            }
+
+            return resultat.ToString();
+        }
+
+        static void Main()
         {
             Console.WriteLine("Entrez un texte (A-Z et 0-9) : ");
             string texte = Console.ReadLine().ToUpper();
 
-            int[] freq = CalculerFrequences(texte);
+            int[] freqArray = CalculerFrequences(texte);
 
-            Console.WriteLine("Fréquences des caractères : ");
-            for (int i = 0; i < 26; i++)
-            {
-                if (freq[i] > 0)
-                {
-                    Console.WriteLine($"{(char)('A' + i)} : {freq[i]}");
-                }
-            }
+            // Conversion en dictionnaire
+            var freqDict = new Dictionary<char, int>();
+            for (int i = 0; i < 26; i++) if (freqArray[i] > 0) freqDict[(char)('A' + i)] = freqArray[i];
+            for (int i = 26; i < 36; i++) if (freqArray[i] > 0) freqDict[(char)('0' + (i - 26))] = freqArray[i];
 
-            for (int i = 26; i < 36; i++)
-            {
-                if (freq[i] > 0)
-                {
-                    Console.WriteLine($"{(char)('0' + (i - 26))} : {freq[i]}");
-                }
-            }
+            Console.WriteLine("\nFréquences :");
+            foreach (var kvp in freqDict) Console.WriteLine($"{kvp.Key} : {kvp.Value}");
 
-            var elements = new List<(char charactere, int freq)>();
-            for (int i = 0; i < 26; i++)
-            {
-                if (freq[i] > 0)
-                {
-                    elements.Add(((char)('A' + i), freq[i]));
-                }
-            }
+            // Arbre Huffman
+            Noeud racine = ConstruireArbre(freqDict);
 
-            for (int i = 26; i < 36; i++)
-            {
-                if (freq[i] > 0)
-                {
-                    elements.Add(((char)('0' + (i - 26)), freq[i]));
-                }
-            }
+            // Codes binaires
+            var codes = new Dictionary<char, string>();
+            GenererCodes(racine, "", codes);
 
-            elements.Sort((a, b) => a.freq.CompareTo(b.freq));
+            Console.WriteLine("\nCodes Huffman :");
+            foreach (var kvp in codes) Console.WriteLine($"{kvp.Key} : {kvp.Value}");
 
-            Node<(char charactere, int freq)>? root = null;
-            foreach (var e in elements)
-            {
-                if (root == null)
-                {
-                    root = new Node<(char charactere, int freq)>(e);
-                }
-                else
-                {
-                    root.Add(e);
-                }
-            }
+            // Compression
+            string compresse = string.Concat(texte.Select(c => codes[c]));
+            Console.WriteLine($"\nTexte compressé : {compresse}");
+            Console.WriteLine($"Longueur originale : {texte.Length * 8} bits");
+            Console.WriteLine($"Longueur compressée : {compresse.Length} bits");
 
-            if (root != null)
-            {
-                Console.WriteLine("\nArbre binaire (racine et enfants) :");
-                Console.WriteLine($"Racine : {root.Value.charactere} ({root.Value.freq})");
-                if (root.Left != null)
-                {
-                    Console.WriteLine($"Gauche : {root.Left.Value.charactere} ({root.Left.Value.freq})");
-                }
-                if (root.Right != null)
-                {
-                    Console.WriteLine($"Droite : {root.Right.Value.charactere} ({root.Right.Value.freq})");
-                }
-            }
-
-            if (root != null)
-            {
-                var codes = new Dictionary<char, string>();
-                GenererCodes(root, "", codes);
-                Console.WriteLine("\nCodes binaires :");
-                foreach (var charCode in codes)
-                {
-                    Console.WriteLine($"{charCode.Key} : {charCode.Value}");
-                }
-            } //revoir car ne donne pas le résultat voulu
+            // Décompression
+            string decompresse = Decompresser(compresse, racine);
+            Console.WriteLine($"\nTexte décompressé : {decompresse}");
         }
     }
 }
