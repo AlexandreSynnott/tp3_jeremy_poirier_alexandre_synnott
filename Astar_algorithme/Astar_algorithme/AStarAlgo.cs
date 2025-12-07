@@ -172,74 +172,72 @@ namespace astar_algorithme
 				}
 			}
 
-			// When the destination cell is not found and the open
-			// list is empty, then we conclude that we failed to
-			// reach the destination cell. This may happen when the
-			// there is no way to destination cell (due to
-			// blockages)
+			// Si la cellules de sortie n'est pas trouvé
+			// et que openList est vide. La recherche 
+			// A echoué, car il n'y a pas de chemin trouvé entre
+			// Le début et la sortie
 			if (!foundDest)
-				Console.WriteLine("Failed to find the Destination Cell");
+				Console.WriteLine("La sortie n'a pas été trouvé");
 		}
 
-		// A Utility Function to check whether given cell (row, col)
-		// is a valid cell or not.
+		// Vérification si la cellule a l'emplacement est valide
+		// Boolean true si la position est dans la carte
 		public static bool IsValid(int row, int col, int ROW, int COL)
 		{
-			// Returns true if row number and column number
-			// is in range
 			return (row >= 0) && (row < ROW) && (col >= 0) && (col < COL);
 		}
 
-		// A Utility Function to check whether the given cell is
-		// blocked or not
+		// Verification si la case est bloqué
+		// Boolean true si elle est non bloqué
 		public static bool IsUnBlocked(int[,] grid, int row, int col)
 		{
-			// Returns true if the cell is not blocked else false
-			return grid[row, col] == 1;
+			return grid[row, col] == 1; // 1 = case non bloqué
 		}
 
-		// A Utility Function to check whether destination cell has
-		// been reached or not
+		// Verifier si la cellule a cette coordonée est la destination
+		// Boolean true si la cellule est la sortie
 		public static bool IsDestination(int row, int col, Pair dest)
 		{
 			return (row == dest.premier && col == dest.second);
 		}
 
-		// A Utility Function to calculate the 'h' heuristics.
+		// Calcule la valeur de h.
+		// la distance entre la cellule et la destination
 		public static double CalculateHValue(int row, int col, Pair dest)
 		{
-			// Return using the distance formula
+			// baser sur le Théoreme de pythagore
+			// Donne la distance diagonale de la cellule à la destination
 			return Math.Sqrt(Math.Pow(row - dest.premier, 2) + Math.Pow(col - dest.second, 2));
 		}
 
-		// A Utility Function to trace the path from the source
-		// to destination
+		// Ecriture de chemin dans la console
 		public static void TracePath(Cell[,] cellDetails, Pair dest)
 		{
-			Console.WriteLine("\nThe Path is ");
-			int ROW = cellDetails.GetLength(0);
-			int COL = cellDetails.GetLength(1);
+			Console.WriteLine("\nLe chemin est:");
 
+			// Position de la sortie
 			int row = dest.premier;
 			int col = dest.second;
 
-			Stack<Pair> Path = new Stack<Pair>();
+			Stack<Pair> Path = new Stack<Pair>(); // Chemin entre le début et la sortie
 
+			// Recupération du chemin
 			while (!(cellDetails[row, col].parent_i == row && cellDetails[row, col].parent_j == col))
 			{
-				Path.Push(new Pair(row, col));
+				Path.Push(new Pair(row, col)); // ajout de la cellule
+				// Recupération de la prochaine cellule du chemin
 				int temp_row = cellDetails[row, col].parent_i;
 				int temp_col = cellDetails[row, col].parent_j;
 				row = temp_row;
 				col = temp_col;
 			}
 
+			// Écriture du chemin
 			Path.Push(new Pair(row, col));
 			while (Path.Count > 0)
 			{
-				Pair p = Path.Peek();
-				Path.Pop();
-				Console.Write(" -> ({0},{1}) ", p.premier, p.second);
+				Pair p = Path.Pop();
+				Console.Write($" -> ({p.premier},{p.second}) ");
 			}
 		}
 
