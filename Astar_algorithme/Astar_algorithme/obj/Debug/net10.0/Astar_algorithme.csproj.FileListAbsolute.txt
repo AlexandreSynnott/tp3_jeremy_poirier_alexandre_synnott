@@ -1,0 +1,15 @@
+C:\Users\User\Desktop\tp3_jeremy_poirier_alexandre_synnott\Astar_algorithme\Astar_algorithme\Astar_algorithme\obj\Debug\net10.0\Astar_algorithme.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Desktop\tp3_jeremy_poirier_alexandre_synnott\Astar_algorithme\Astar_algorithme\Astar_algorithme\obj\Debug\net10.0\Astar_algorithme.AssemblyInfoInputs.cache
+C:\Users\User\Desktop\tp3_jeremy_poirier_alexandre_synnott\Astar_algorithme\Astar_algorithme\Astar_algorithme\obj\Debug\net10.0\Astar_algorithme.AssemblyInfo.cs
+C:\Users\User\Desktop\tp3_jeremy_poirier_alexandre_synnott\Astar_algorithme\Astar_algorithme\Astar_algorithme\obj\Debug\net10.0\Astar_algorithme.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\tp3_jeremy_poirier_alexandre_synnott\Astar_algorithme\Astar_algorithme\Astar_algorithme\obj\Debug\net10.0\Astar_algorithme.sourcelink.json
+C:\Users\User\Desktop\tp3_jeremy_poirier_alexandre_synnott\Astar_algorithme\Astar_algorithme\Astar_algorithme\bin\Debug\net10.0\Astar_algorithme.exe
+C:\Users\User\Desktop\tp3_jeremy_poirier_alexandre_synnott\Astar_algorithme\Astar_algorithme\Astar_algorithme\bin\Debug\net10.0\Astar_algorithme.deps.json
+C:\Users\User\Desktop\tp3_jeremy_poirier_alexandre_synnott\Astar_algorithme\Astar_algorithme\Astar_algorithme\bin\Debug\net10.0\Astar_algorithme.runtimeconfig.json
+C:\Users\User\Desktop\tp3_jeremy_poirier_alexandre_synnott\Astar_algorithme\Astar_algorithme\Astar_algorithme\bin\Debug\net10.0\Astar_algorithme.dll
+C:\Users\User\Desktop\tp3_jeremy_poirier_alexandre_synnott\Astar_algorithme\Astar_algorithme\Astar_algorithme\bin\Debug\net10.0\Astar_algorithme.pdb
+C:\Users\User\Desktop\tp3_jeremy_poirier_alexandre_synnott\Astar_algorithme\Astar_algorithme\Astar_algorithme\obj\Debug\net10.0\Astar_algorithme.dll
+C:\Users\User\Desktop\tp3_jeremy_poirier_alexandre_synnott\Astar_algorithme\Astar_algorithme\Astar_algorithme\obj\Debug\net10.0\refint\Astar_algorithme.dll
+C:\Users\User\Desktop\tp3_jeremy_poirier_alexandre_synnott\Astar_algorithme\Astar_algorithme\Astar_algorithme\obj\Debug\net10.0\Astar_algorithme.pdb
+C:\Users\User\Desktop\tp3_jeremy_poirier_alexandre_synnott\Astar_algorithme\Astar_algorithme\Astar_algorithme\obj\Debug\net10.0\Astar_algorithme.genruntimeconfig.cache
+C:\Users\User\Desktop\tp3_jeremy_poirier_alexandre_synnott\Astar_algorithme\Astar_algorithme\Astar_algorithme\obj\Debug\net10.0\ref\Astar_algorithme.dll
